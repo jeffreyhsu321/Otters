@@ -18,6 +18,7 @@ public class IdleState : State
     [SerializeField] ClickState clickState;
 
     //decision
+    bool doDecision;
     int timeUntilNextDecision = 0;
     float timeToNextDecision = 0;
     int numOfDecisions = 3;
@@ -33,6 +34,8 @@ public class IdleState : State
     /// <returns></returns>
     public override State RunCurrentState(ProtoOtter otter)
     {
+        doDecision = otter.doDecision;
+
         //placeholder: input
         if (Input.GetKeyDown(KeyCode.A) || Input.touchCount > 1)
         {
@@ -68,7 +71,7 @@ public class IdleState : State
         timeToNextDecision += Time.deltaTime;
 
         //decision
-        if (timeToNextDecision >= timeUntilNextDecision) {
+        if (doDecision && timeToNextDecision >= timeUntilNextDecision) {
             timeUntilNextDecision = 0;  //resets timer
             switch (Random.Range(0, numOfDecisions)) {
                 case 0:

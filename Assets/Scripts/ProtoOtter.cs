@@ -12,7 +12,7 @@ using UnityEngine;
 using UnityEngine.AI;
 
 [RequireComponent(typeof(NavMeshAgent))]
-[RequireComponent(typeof(BoxCollider))]
+[RequireComponent(typeof(CapsuleCollider))]
 [RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(Rigidbody))]
 
@@ -27,6 +27,9 @@ public class ProtoOtter : MonoBehaviour
 
     //states
     public State collisionState;
+
+    //decision
+    public bool doDecision;
 
     //collision
     [HideInInspector] public Collider other;
