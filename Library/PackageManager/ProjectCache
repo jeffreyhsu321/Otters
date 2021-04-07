@@ -5,16 +5,16 @@ m_ProjectFiles:
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 637532140378850486
-    m_Hash: 2208533726
+      ticks: 637533840104554750
+    m_Hash: 1772986301
   m_LockFileStatus:
     m_FilePath: C:/Users/Jeffrey Hsu/Documents/Unity Projects/Protopond/Packages/packages-lock.json
     m_PathExists: 1
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 637532140379660582
-    m_Hash: 2991147766
+      ticks: 637533840104784131
+    m_Hash: 2376248108
 m_EmbeddedPackageManifests:
   m_ManifestsStatus: {}
 m_PackageAssets:
@@ -633,12 +633,12 @@ m_PackageAssets:
         url: git+https://github.com/Unity-Technologies/com.unity.test-framework.git
         revision: e6fe8892689398c0d9aba4587e0ba69edc3d82b8
         path: 
-    - packageId: com.unity.textmeshpro@3.0.1
+    - packageId: com.unity.textmeshpro@3.0.4
       testable: 0
       isDirectDependency: 1
-      version: 3.0.1
+      version: 3.0.4
       source: 1
-      resolvedPath: C:\Users\Jeffrey Hsu\Documents\Unity Projects\Protopond\Library\PackageCache\com.unity.textmeshpro@3.0.1
+      resolvedPath: C:\Users\Jeffrey Hsu\Documents\Unity Projects\Protopond\Library\PackageCache\com.unity.textmeshpro@3.0.4
       assetPath: Packages/com.unity.textmeshpro
       name: com.unity.textmeshpro
       displayName: TextMeshPro
@@ -776,13 +776,13 @@ m_PackageAssets:
       entitlements:
         isAllowed: 1
       isAssetStorePackage: 0
-      datePublishedTicks: 637314376320000000
+      datePublishedTicks: 637492944820000000
       documentationUrl: 
       hasRepository: 1
       repository:
         type: git
         url: https://github.cds.internal.unity3d.com/unity/com.unity.textmeshpro.git
-        revision: 1604b62e543216408311bcd1355a7a9ca1e65765
+        revision: e2f8dffb26de9a130d5b2140d83891d9a7825330
         path: 
     - packageId: com.unity.timeline@1.4.6
       testable: 0

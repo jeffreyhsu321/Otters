@@ -53,20 +53,44 @@
     <UnityVersion>2020.3.2f1</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\FSM\WanderState.cs" />
-    <Compile Include="Assets\Scripts\ProtoOtter.cs" />
-    <Compile Include="Assets\Scripts\FSM\CollisionState.cs" />
-    <Compile Include="Assets\Scripts\FSM\State.cs" />
-    <Compile Include="Assets\Scripts\FSM\ClickState.cs" />
-    <Compile Include="Assets\Scripts\ClickManager.cs" />
-    <Compile Include="Assets\Scripts\FSM\StateManager.cs" />
-    <Compile Include="Assets\Scripts\CameraFollow.cs" />
-    <Compile Include="Assets\Scripts\FSM\IdleState.cs" />
-    <Compile Include="Assets\Scripts\CritterManager.cs" />
-    <Compile Include="Assets\Scripts\HeadTrack\PointOfInterest.cs" />
-    <Compile Include="Assets\Scripts\HeadTrack\HeadTracking.cs" />
+    <Compile Include="Assets\Scripts\Otter\FSM\WanderState.cs" />
+    <Compile Include="Assets\Scripts\Craw\Data.cs" />
+    <Compile Include="Assets\Scripts\Otter\FSM\State.cs" />
+    <Compile Include="Assets\Scripts\Otter\FSM\ClickState.cs" />
+    <Compile Include="Assets\Scripts\UI\CanvasManager.cs" />
+    <Compile Include="Assets\Scripts\Otter\ClickManager.cs" />
+    <Compile Include="Assets\Scripts\Otter\HeadTrack\PointOfInterest.cs" />
+    <Compile Include="Assets\Scripts\Craw\CrawManager.cs" />
+    <Compile Include="Assets\Scripts\Level\CritterManager.cs" />
+    <Compile Include="Assets\Scripts\Otter\ProtoOtter.cs" />
+    <Compile Include="Assets\Scripts\Otter\FSM\CollisionState.cs" />
+    <Compile Include="Assets\Scripts\Otter\HeadTrack\HeadTracking.cs" />
+    <Compile Include="Assets\Scripts\Otter\FSM\StateManager.cs" />
+    <Compile Include="Assets\Scripts\Level\CameraFollow.cs" />
+    <Compile Include="Assets\Scripts\Otter\FSM\IdleState.cs" />
   </ItemGroup>
   <ItemGroup>
+     <None Include="Assets\Packages\TextMesh Pro\Shaders\TMPro.cginc" />
+     <None Include="Assets\Packages\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
+     <None Include="Assets\Packages\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
+     <None Include="Assets\Packages\TextMesh Pro\Shaders\TMPro_Mobile.cginc" />
+     <None Include="Assets\Packages\TextMesh Pro\Shaders\TMP_SDF SSD.shader" />
+     <None Include="Assets\Packages\TextMesh Pro\Shaders\TMP_SDF-Surface-Mobile.shader" />
+     <None Include="Assets\Packages\TextMesh Pro\Shaders\TMP_SDF-Surface.shader" />
+     <None Include="Assets\Packages\TextMesh Pro\Sprites\EmojiOne Attribution.txt" />
+     <None Include="Assets\Packages\TextMesh Pro\Shaders\TMP_Bitmap-Custom-Atlas.shader" />
+     <None Include="Assets\Packages\TextMesh Pro\Shaders\TMP_SDF.shader" />
+     <None Include="Assets\Packages\TextMesh Pro\Shaders\TMP_SDF-Mobile SSD.shader" />
+     <None Include="Assets\Packages\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
+     <None Include="Assets\Packages\TextMesh Pro\Shaders\TMPro_Properties.cginc" />
+     <None Include="Assets\Packages\TextMesh Pro\Shaders\TMPro_Surface.cginc" />
+     <None Include="Assets\Packages\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
+     <None Include="Assets\Packages\TextMesh Pro\Shaders\TMP_SDF-Mobile Masking.shader" />
+     <None Include="Assets\Packages\TextMesh Pro\Shaders\TMP_SDF Overlay.shader" />
+     <None Include="Assets\Packages\TextMesh Pro\Shaders\TMP_Bitmap-Mobile.shader" />
+     <None Include="Assets\Packages\TextMesh Pro\Fonts\LiberationSans - OFL.txt" />
+     <None Include="Assets\Packages\TextMesh Pro\Shaders\TMP_SDF-Mobile.shader" />
+     <None Include="Assets\Packages\TextMesh Pro\Shaders\TMP_Sprite.shader" />
     <Reference Include="UnityEngine">
       <HintPath>C:\Users\Jeffrey Hsu\Documents\Unity Projects\2020.3.2f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
     </Reference>
@@ -631,6 +655,9 @@
     <Reference Include="Unity.VSCode.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.VSCode.Editor.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.Burst">
+      <HintPath>Library\ScriptAssemblies\Unity.Burst.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.Postprocessing.Runtime">
       <HintPath>Library\ScriptAssemblies\Unity.Postprocessing.Runtime.dll</HintPath>
     </Reference>
@@ -649,6 +676,12 @@
     <Reference Include="Unity.TextMeshPro">
       <HintPath>Library\ScriptAssemblies\Unity.TextMeshPro.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.Mathematics.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.Mathematics.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Burst.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.Burst.Editor.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.Postprocessing.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.Postprocessing.Editor.dll</HintPath>
     </Reference>
@@ -658,26 +691,17 @@
     <Reference Include="Unity.Rider.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.Rider.Editor.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.Animation.Rigging.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.Animation.Rigging.Editor.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine.UI">
       <HintPath>Library\ScriptAssemblies\UnityEngine.UI.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Mathematics">
-      <HintPath>Library\ScriptAssemblies\Unity.Mathematics.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Burst">
-      <HintPath>Library\ScriptAssemblies\Unity.Burst.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Mathematics.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.Mathematics.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Animation.Rigging">
       <HintPath>Library\ScriptAssemblies\Unity.Animation.Rigging.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.Animation.Rigging.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.Animation.Rigging.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Burst.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.Burst.Editor.dll</HintPath>
+    <Reference Include="Unity.Mathematics">
+      <HintPath>Library\ScriptAssemblies\Unity.Mathematics.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
