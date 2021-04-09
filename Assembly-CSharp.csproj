@@ -54,11 +54,12 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Otter\FSM\WanderState.cs" />
+    <Compile Include="Assets\Scripts\Craw\CrawStructure.cs" />
     <Compile Include="Assets\Scripts\Craw\Data.cs" />
     <Compile Include="Assets\Scripts\Otter\FSM\State.cs" />
     <Compile Include="Assets\Scripts\Otter\FSM\ClickState.cs" />
     <Compile Include="Assets\Scripts\UI\CanvasManager.cs" />
-    <Compile Include="Assets\Scripts\Otter\ClickManager.cs" />
+    <Compile Include="Assets\Scripts\InputManager.cs" />
     <Compile Include="Assets\Scripts\Otter\HeadTrack\PointOfInterest.cs" />
     <Compile Include="Assets\Scripts\Craw\CrawManager.cs" />
     <Compile Include="Assets\Scripts\Level\CritterManager.cs" />
