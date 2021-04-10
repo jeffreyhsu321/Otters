@@ -123,6 +123,39 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 23800000, guid: 5003834bf22a8c74585d8de075b97232, type: 2}
+--- !u!1 &23636338
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 23636341}
+  m_Layer: 0
+  m_Name: Managers
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &23636341
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 23636338}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -9, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1292687649}
+  - {fileID: 950535713}
+  - {fileID: 1926550741}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &31755421
 GameObject:
   m_ObjectHideFlags: 0
@@ -432,6 +465,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f152ad637d474e4e98cc60a95104aa4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isClicked: 0
   idleState: {fileID: 514283171}
   collisionState: {fileID: 880095247}
   isWandering: 0
@@ -1175,7 +1209,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 266445986}
-  - component: {fileID: 266445987}
   m_Layer: 0
   m_Name: UI
   m_TagString: Untagged
@@ -1198,23 +1231,8 @@ Transform:
   - {fileID: 274211483}
   - {fileID: 1576320104}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &266445987
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 266445985}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9c36fe3b4ff425942919bb423baeb2aa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  canvas: {fileID: 305242475}
-  clickState: {fileID: 0}
-  doCamClickFollow: 1
 --- !u!1 &274211482
 GameObject:
   m_ObjectHideFlags: 0
@@ -1407,7 +1425,6 @@ GameObject:
   - component: {fileID: 305242474}
   - component: {fileID: 305242473}
   - component: {fileID: 305242472}
-  - component: {fileID: 305242475}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -1497,21 +1514,6 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
---- !u!114 &305242475
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 305242470}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fd5b6ae58670b3a4787daf94704f9674, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  t_count_fish: {fileID: 1964161744}
-  tab_default: {fileID: 1018120034}
-  tab_structures: {fileID: 692689378}
 --- !u!1001 &324433281
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2061,6 +2063,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbd1e42b52135094484e2cad63619255, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isClicked: 0
   wanderState: {fileID: 106622600}
   clickState: {fileID: 1944018129}
   anim_state: 1
@@ -2349,6 +2352,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbd1e42b52135094484e2cad63619255, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isClicked: 0
   wanderState: {fileID: 2033323839}
   clickState: {fileID: 1885591600}
   anim_state: 1
@@ -3334,6 +3338,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f256783fef30ba4db5a8c5bfb4a214c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isClicked: 0
   idleState: {fileID: 514283171}
 --- !u!1 &933183063
 GameObject:
@@ -3450,6 +3455,51 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 382516988}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &950535712
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 950535713}
+  - component: {fileID: 950535714}
+  m_Layer: 0
+  m_Name: InputManager
+  m_TagString: Singleton
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &950535713
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 950535712}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 23636341}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &950535714
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 950535712}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c36fe3b4ff425942919bb423baeb2aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  doCamClickFollow: 1
+  canvas: {fileID: 1292687650}
 --- !u!114 &953039596 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8308416686724280483, guid: b7ea1575b95e1064c9039eb61ebcc45c,
@@ -4223,6 +4273,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f256783fef30ba4db5a8c5bfb4a214c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isClicked: 0
   idleState: {fileID: 642774645}
 --- !u!1 &1280314245
 GameObject:
@@ -4321,6 +4372,52 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target_offset: {x: 0, y: 4, z: -10}
+--- !u!1 &1292687648
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1292687649}
+  - component: {fileID: 1292687650}
+  m_Layer: 0
+  m_Name: CanvasManager
+  m_TagString: Singleton
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1292687649
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1292687648}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 23636341}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1292687650
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1292687648}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd5b6ae58670b3a4787daf94704f9674, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  t_count_fish: {fileID: 1964161744}
+  tab_default: {fileID: 1018120034}
+  tab_structures: {fileID: 692689378}
 --- !u!1 &1330093255
 GameObject:
   m_ObjectHideFlags: 0
@@ -6426,6 +6523,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4350683757961c442bfbaf6195ef5001, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isClicked: 0
   idleState: {fileID: 642774645}
 --- !u!4 &1885591601
 Transform:
@@ -6698,8 +6796,8 @@ GameObject:
   - component: {fileID: 1926550741}
   - component: {fileID: 1926550742}
   m_Layer: 0
-  m_Name: Craw
-  m_TagString: Untagged
+  m_Name: CrawManager
+  m_TagString: Singleton
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6711,12 +6809,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1926550740}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.6333661, y: 4.5141, z: 1.308981}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 9.633366, y: 4.5141, z: 1.308981}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_Father: {fileID: 23636341}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1926550742
 MonoBehaviour:
@@ -6732,7 +6830,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   struct_list:
   - {fileID: 990189090555490738, guid: fe04f30ec10d83a4a9ff8458bae5c359, type: 3}
-  canvas: {fileID: 305242475}
+  canvas: {fileID: 1292687650}
 --- !u!1 &1944018128
 GameObject:
   m_ObjectHideFlags: 0
@@ -6762,6 +6860,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4350683757961c442bfbaf6195ef5001, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isClicked: 0
   idleState: {fileID: 514283171}
 --- !u!4 &1944018130
 Transform:
@@ -7423,6 +7522,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f152ad637d474e4e98cc60a95104aa4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isClicked: 0
   idleState: {fileID: 642774645}
   collisionState: {fileID: 1275094419}
   isWandering: 0

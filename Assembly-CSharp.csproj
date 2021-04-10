@@ -58,8 +58,8 @@
     <Compile Include="Assets\Scripts\Craw\Data.cs" />
     <Compile Include="Assets\Scripts\Otter\FSM\State.cs" />
     <Compile Include="Assets\Scripts\Otter\FSM\ClickState.cs" />
-    <Compile Include="Assets\Scripts\UI\CanvasManager.cs" />
-    <Compile Include="Assets\Scripts\InputManager.cs" />
+    <Compile Include="Assets\Scripts\Managers\CanvasManager.cs" />
+    <Compile Include="Assets\Scripts\Managers\InputManager.cs" />
     <Compile Include="Assets\Scripts\Otter\HeadTrack\PointOfInterest.cs" />
     <Compile Include="Assets\Scripts\Craw\CrawManager.cs" />
     <Compile Include="Assets\Scripts\Level\CritterManager.cs" />
@@ -69,6 +69,7 @@
     <Compile Include="Assets\Scripts\Otter\FSM\StateManager.cs" />
     <Compile Include="Assets\Scripts\Level\CameraFollow.cs" />
     <Compile Include="Assets\Scripts\Otter\FSM\IdleState.cs" />
+    <Compile Include="Assets\Scripts\Singleton.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\Packages\TextMesh Pro\Shaders\TMPro.cginc" />

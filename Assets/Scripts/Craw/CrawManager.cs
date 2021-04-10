@@ -9,21 +9,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CrawManager : MonoBehaviour
+public class CrawManager : Singleton<CrawManager>
 {
     
     Data data = new Data();     //game data that holds player stats
 
     [SerializeField] GameObject[] struct_list;  //list of all the possible structures
-    
-    [SerializeField] CanvasManager canvas;      //ref to canvas (UI)
-
 
 
     public void GenerateFish(int amount)
     {
         data.fish += amount;
-        canvas.t_count_fish.text = data.fish.ToString() + " Fish";
+        CanvasManager.Instance.t_count_fish.text = data.fish.ToString() + " Fish";
     }
 
     public void BuildStructure(int struct_index) {

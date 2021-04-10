@@ -23,7 +23,7 @@ public class ProtoOtter : MonoBehaviour
     [HideInInspector] public Animator anim;
     [HideInInspector] public Rigidbody rb;
 
-    [SerializeField] State currentState;
+    public State currentState;
 
     //states
     public State collisionState;

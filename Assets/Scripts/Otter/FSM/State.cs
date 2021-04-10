@@ -11,6 +11,10 @@ using UnityEngine;
 
 public abstract class State : MonoBehaviour
 {
+    public bool isClicked;
+
     public abstract State RunCurrentState(ProtoOtter otter);
     public abstract void StopCurrentState(ProtoOtter otter);
+
+    public void Clicked() => isClicked = true;
 }

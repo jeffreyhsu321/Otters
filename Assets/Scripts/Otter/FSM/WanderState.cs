@@ -37,6 +37,13 @@ public class WanderState : State
     /// <returns></returns>
     public override State RunCurrentState(ProtoOtter otter)
     {
+        //interruption
+        if (isClicked)
+        {
+            CrawManager.Instance.GenerateFish(1);
+            isClicked = !isClicked;
+        }
+
         //wander (navmesh agent)
         if (!isWandering)
         {

@@ -36,6 +36,12 @@ public class IdleState : State
     {
         doDecision = otter.doDecision;
 
+        //interruption
+        if (isClicked) {
+            CrawManager.Instance.GenerateFish(1);
+            isClicked = !isClicked;
+        }
+
         //placeholder: input
         if (Input.GetKeyDown(KeyCode.A) || Input.touchCount > 1)
         {
@@ -76,11 +82,11 @@ public class IdleState : State
                 case 0:
                     //IDLE
                     anim_state = 1;
-                    return this;
+                    return null;
                 case 1:
                     //IDLE
                     anim_state = 4;
-                    return this;
+                    return null;
                 case 2:
                     //WANDER
                     //anim_state = 1;
