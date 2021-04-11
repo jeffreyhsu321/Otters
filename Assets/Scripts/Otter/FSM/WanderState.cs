@@ -40,7 +40,6 @@ public class WanderState : State
         //interruption
         if (isClicked)
         {
-            CrawManager.Instance.GenerateFish(1);
             isClicked = !isClicked;
         }
 

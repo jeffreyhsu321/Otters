@@ -43,18 +43,21 @@ public class InputManager : MonoBehaviour
             {
                 if (hit.transform.CompareTag("Otter"))
                 {
+                    //set cam follow target
                     if (doCamClickFollow) cam.SetTarget(hit.transform);
 
-                    //switch hit otter to click state
-                    hit.transform.GetComponent<ProtoOtter>().currentState.Clicked();
+                    //clicked otter is now clicked
+                    hit.transform.GetComponent<ProtoOtter>().Clicked();
                 }
                 else
                 {
+                    //reset cam follow target
                     if (doCamClickFollow) cam.SetTarget(null);
                 }
             }
             else
             {
+                //reset cam follow target
                 if (doCamClickFollow) cam.SetTarget(null);
             }
         }

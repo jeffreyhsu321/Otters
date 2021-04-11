@@ -23,6 +23,8 @@ public class ProtoOtter : MonoBehaviour
     [HideInInspector] public Animator anim;
     [HideInInspector] public Rigidbody rb;
 
+    [SerializeField] GameObject fish_notif;
+
     public State currentState;
 
     //states
@@ -84,6 +86,26 @@ public class ProtoOtter : MonoBehaviour
         //debug: print current state name
         if(debug) Debug.Log(currentState.name);
     }
+
+
+    /// <summary>
+    /// set current state isClicked flag and collect fish
+    /// </summary>
+    public void Clicked()
+    {
+        if (fish_notif.activeSelf) { 
+            currentState.isClicked = true;          //state interruption
+            CrawManager.Instance.GenerateFish(1);   //collect fish
+            fish_notif.SetActive(false);            //hide fish notif
+        }
+    }
+
+    public void GenerateFishNotif()
+    {
+        Debug.Log("generated fish notif!" + fish_notif);
+        fish_notif.SetActive(true);
+    }
+
     
     /// <summary>
     /// collision detection

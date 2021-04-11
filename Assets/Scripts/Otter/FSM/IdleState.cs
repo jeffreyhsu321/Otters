@@ -19,8 +19,8 @@ public class IdleState : State
 
     //decision
     bool doDecision;
-    int timeUntilNextDecision = 0;
-    float timeToNextDecision = 0;
+    int timerThreshold = 0;
+    float timer = 0;
     int numOfDecisions = 3;
 
     //anim
@@ -38,7 +38,6 @@ public class IdleState : State
 
         //interruption
         if (isClicked) {
-            CrawManager.Instance.GenerateFish(1);
             isClicked = !isClicked;
         }
 
@@ -67,17 +66,17 @@ public class IdleState : State
     private State Decision()
     {
         //run timer until threshold
-        if (timeUntilNextDecision == 0) {
-            timeUntilNextDecision = (int)(Random.value * 20);
-            timeToNextDecision = 0;
+        if (timerThreshold == 0) {
+            timerThreshold = (int)(Random.value * 20);
+            timer = 0;
         }
 
         //timer increment
-        timeToNextDecision += Time.deltaTime;
+        timer += Time.deltaTime;
 
         //decision
-        if (doDecision && timeToNextDecision >= timeUntilNextDecision) {
-            timeUntilNextDecision = 0;  //resets timer
+        if (doDecision && timer >= timerThreshold) {
+            timerThreshold = 0;  //resets timer
             switch (Random.Range(0, numOfDecisions)) {
                 case 0:
                     //IDLE

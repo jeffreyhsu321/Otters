@@ -15,22 +15,20 @@ public class CanvasManager : Singleton<CanvasManager>
 {
     public TMP_Text t_count_fish;
 
-    public GameObject tab_default;
-    public GameObject tab_structures;
+    [SerializeField] GameObject[] tabs;
 
-    public void SwitchToTab(int tab) {
-        switch (tab) {
-            case 0:
-                tab_default.SetActive(true);
-                tab_structures.SetActive(false);
-                break;
-            case 1:
-                tab_default.SetActive(false);
-                tab_structures.SetActive(true);
-                break;
-            default:
-                Debug.Log("ERROR: Invalid tab number");
-                break;
+    public void SwitchToTab(int tab_i) {
+
+        for(int i = 0; i < tabs.Length; i++) {
+            if (i == tab_i)
+            {
+                tabs[0].SetActive(tabs[i].activeSelf);      //toggle default UI panel
+                tabs[i].SetActive(!tabs[i].activeSelf);     //toggle target tab
+            }
+            else
+            {
+                tabs[i].SetActive(false);       //disable all other tabs
+            }
         }
     }
 }
