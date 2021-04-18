@@ -297,7 +297,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: b90ba679a2a1a5f49ad82959e5973663, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -322,7 +322,7 @@ SkinnedMeshRenderer:
   m_Quality: 0
   m_UpdateWhenOffscreen: 0
   m_SkinnedMotionVectors: 1
-  m_Mesh: {fileID: 802905531113448418, guid: 8cd94088b068e744489d80736ceb984c, type: 3}
+  m_Mesh: {fileID: -7868130613963485960, guid: 8cd94088b068e744489d80736ceb984c, type: 3}
   m_Bones:
   - {fileID: 4819957921958093308}
   - {fileID: 4819957920821239043}
@@ -966,7 +966,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4819957921387253049}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 9.913849, y: 3.9128757, z: -0.00084745884}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -996,7 +996,7 @@ MonoBehaviour:
   collisionState: {fileID: 4819957920803362848}
   doDecision: 1
   other: {fileID: 0}
-  debug: 1
+  debug: 0
 --- !u!114 &4819957921387253025
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1009,7 +1009,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf8b1abc4948a56429f27ef0f22fd2a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  doHeadTrack: 1
+  doHeadTrack: 0
   POIs:
   - {fileID: 0}
   - {fileID: 0}
@@ -1031,7 +1031,7 @@ NavMeshAgent:
   m_AgentTypeID: 0
   m_Radius: 0.8
   m_Speed: 3
-  m_Acceleration: 2
+  m_Acceleration: 6
   avoidancePriority: 50
   m_AngularSpeed: 200
   m_StoppingDistance: 2

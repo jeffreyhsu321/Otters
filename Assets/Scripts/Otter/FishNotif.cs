@@ -14,7 +14,12 @@ public class FishNotif : MonoBehaviour
     public Transform parent;
     public Vector3 v_offset;
 
-    public void Update()
+
+    public void OnEnable()
+    {
+        this.transform.position = RectTransformUtility.WorldToScreenPoint(Camera.main, parent.position + v_offset);
+    }
+    public void FixedUpdate()
     {
         //transform.position = parent.transform.position + v_offset;
         //this.GetComponent<RectTransform>().anchoredPosition = parent.transform.position + v_offset;

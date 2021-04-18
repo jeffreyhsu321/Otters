@@ -102,7 +102,6 @@ public class ProtoOtter : MonoBehaviour
 
     public void GenerateFishNotif()
     {
-        Debug.Log("generated fish notif!" + fish_notif);
         fish_notif.SetActive(true);
     }
 
@@ -113,12 +112,14 @@ public class ProtoOtter : MonoBehaviour
     /// <param name="other"></param>
     private void OnTriggerEnter(Collider other)
     {
+        /*
         //compare for navmesh agent priority and switch lower priority (higher avoidancePriority value) to collision state 
         if (agent.avoidancePriority > other.GetComponent<ProtoOtter>().agent.avoidancePriority)
         {
             this.other = other;
             SwitchToNextState(collisionState, true);
         }
+        */
     }
 
     /// <summary>

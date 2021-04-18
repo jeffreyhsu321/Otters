@@ -13,12 +13,12 @@ public class InputManager : MonoBehaviour
 {
     bool isInMenu;
 
-    CameraFollow cam;
+    CameraManager cam;
     [SerializeField] bool doCamClickFollow;
 
     public void Start()
     {
-        cam = Camera.main.GetComponent<CameraFollow>();
+        cam = CameraManager.Instance;
     }
 
     /// <summary>

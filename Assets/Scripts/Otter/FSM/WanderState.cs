@@ -50,6 +50,8 @@ public class WanderState : State
             wanderTargetLocation = Random.insideUnitSphere * 20;
             wanderTargetLocation.y = 0;
 
+            otter.agent.speed = Random.Range(3,12);
+
             //start wander
             otter.agent.SetDestination(wanderTargetLocation);
             isWandering = true;
@@ -72,8 +74,8 @@ public class WanderState : State
         otter.anim.SetFloat("ang_v", ang_v);
 
         //updates anim with velocity params and controls animation speed
-        otter.anim.SetFloat("v", otter.agent.velocity.magnitude);
-        otter.anim.speed = Mathf.Clamp(otter.agent.velocity.magnitude / 2, 1, otter.agent.speed);
+        otter.anim.SetFloat("v", otter.agent.velocity.sqrMagnitude);
+        otter.anim.speed = Mathf.Clamp(otter.agent.velocity.sqrMagnitude / 5, 1, 1);
 
         return null;
     }
