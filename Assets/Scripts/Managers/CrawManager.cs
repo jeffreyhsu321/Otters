@@ -21,17 +21,33 @@ public class CrawManager : Singleton<CrawManager>
     int timerThreshold;
     float timer;
 
+    //structures
+    bool spawningStructure;
+    CrawStructure currentStructure;
+
+    [SerializeField] Transform structures_hierachy_folder;
+
+
+
     public void BuildStructure(int struct_index)
     {
-        Instantiate(structures[struct_index]);
+        currentStructure = Instantiate(structures[struct_index], structures_hierachy_folder).GetComponent<CrawStructure>();
+        spawningStructure = true;
     }
 
+    /// <summary>
+    /// increment fish count by amount and update UI
+    /// </summary>
+    /// <param name="amount"></param>
     public void GenerateFish(int amount)
     {
         data.fish += amount;
         CanvasManager.Instance.t_count_fish.text = data.fish.ToString() + " Fish";
     }
 
+    /// <summary>
+    /// runs passive craw income
+    /// </summary>
     private void RunCrawTimer() {
         //run timer until threshold
         if (timerThreshold == 0)
@@ -55,5 +71,6 @@ public class CrawManager : Singleton<CrawManager>
     public void Update()
     {
         if (doGenerateFish) RunCrawTimer();
+        if (spawningStructure) spawningStructure = currentStructure.AnimateSpawn();
     }
 }
