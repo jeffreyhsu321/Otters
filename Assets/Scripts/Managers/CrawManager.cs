@@ -16,7 +16,11 @@ public class CrawManager : Singleton<CrawManager>
     Data data = new Data();     //game data that holds player stats
 
     [SerializeField] GameObject[] pf_asters;        //list of all the land masses
-    [SerializeField] GameObject[] pf_structures;   //list of all the possible structures
+    [SerializeField] GameObject[] pf_structures;    //list of all the possible structures
+
+    public Vector3[] camp_spawnInfo;                                    //[camp_i][0 = structure_i; 1 = dir_i; 2 = pf_structures_i]
+    int current_structure_build_i;                                      //current structure built index for this camp (camp_spawnInfo use)
+    List<CrawStructure> structures = new List<CrawStructure>();         //instantiated list of structures
 
     //timer
     int timerThreshold;
@@ -37,6 +41,8 @@ public class CrawManager : Singleton<CrawManager>
 
     //tmp
     public bool doSpawnStruct;
+    public float buildSpeed;
+    public bool spawningInterval;
 
 
     public void SpawnAster(int aster_index) {
@@ -44,36 +50,89 @@ public class CrawManager : Singleton<CrawManager>
         spawningAster = true;
     }
 
-    public void SpawnStructure()
+    /// <summary>
+    /// (depreciated) spawn structures randomly
+    /// </summary>
+    /// <returns></returns>
+    public bool SpawnStructureRandom()
     {
         //tmp var inits
         int corridor_length = 2;
         Vector3 base_spawn_pos = Vector3.zero;
+        int pf_struct_index = Random.Range(0, 2);
 
-        if (structures_hierachy_folder.childCount == 0) {
+        if (structures_hierachy_folder.childCount == 0)
+        {
             //initial base spawn
-            currentStructure = Instantiate(pf_structures[0], base_spawn_pos, Quaternion.identity, structures_hierachy_folder).GetComponent<CrawStructure>();
-        } else {
+            currentStructure = Instantiate(pf_structures[pf_struct_index], base_spawn_pos, Quaternion.identity, structures_hierachy_folder).GetComponent<CrawStructure>();
+        }
+        else
+        {
             //spawn room and corridor from random currentStructure
             currentStructure = structures_hierachy_folder.GetChild(Random.Range(0, structures_hierachy_folder.childCount)).GetComponent<CrawStructure>();
 
-            //get availabilty
+            //get and check availabilty
             Vector3 dir = currentStructure.GetAvailableDir();
             if (dir == Vector3.zero) {
-                Debug.Log("aLL POINTS EXHAUSTED");
-                return;
+                Debug.Log("Availability Check Fails!");
+                return false;
+            }
+
+            //check collision validity
+            if (    currentStructure.CheckCollisionValidity(dir, corridor_length, pf_structures[pf_struct_index])) {
+                Debug.Log("Collision Validity Fails!");
+                return false;
             }
 
             //spawn corridor
             GameObject corridor = Instantiate(pf_corridor, currentStructure.transform.position + dir * currentStructure.radius, Quaternion.LookRotation(dir, Vector3.up), currentStructure.transform);
 
             //spawn room
-            GameObject room = Instantiate(pf_structures[0], currentStructure.transform.position + dir * (currentStructure.radius + corridor_length + pf_structures[0].GetComponent<CrawStructure>().radius), Quaternion.identity, structures_hierachy_folder);
+            GameObject room = Instantiate(pf_structures[pf_struct_index], currentStructure.transform.position + dir * (currentStructure.radius + corridor_length + pf_structures[pf_struct_index].GetComponent<CrawStructure>().radius), Quaternion.identity, structures_hierachy_folder);
             room.GetComponent<CrawStructure>().SetAvailability(dir);
 
-
-            //currentStructure.SpawnAdjacentRoom(pf_structures[0], pf_corridor, structures_hierachy_folder);
+            Debug.Log("Spawn Successful!");
         }
+
+        //successful spawning
+        return true;
+        
+    }
+
+    /// <summary>
+    /// spawn structures (corridor -> room) per spawn camp info list (pre-determined design)
+    /// </summary>
+    public void SpawnStructure() {
+        //tmp var inits
+        int corridor_length = 2;
+        Vector3 base_spawn_pos = Vector3.zero;
+        int base_room_pf_i = 0;
+
+        if (structures_hierachy_folder.childCount == 0)
+        {
+            //initial base spawn and append to list of instaniated
+            structures.Add(Instantiate(pf_structures[base_room_pf_i], base_spawn_pos, Quaternion.identity, structures_hierachy_folder).GetComponent<CrawStructure>());
+            current_structure_build_i = 0;
+        }
+        else
+        {
+            current_structure_build_i++;
+
+            //get designated currentStructure
+            currentStructure = structures[(int)camp_spawnInfo[current_structure_build_i].x];
+
+            //spawn corridor
+            Vector3 dir = currentStructure.GetDir((int)camp_spawnInfo[current_structure_build_i].y);
+            Instantiate(pf_corridor, currentStructure.transform.position + dir * currentStructure.radius, Quaternion.LookRotation(dir, Vector3.up), currentStructure.transform);
+
+            //spawn room
+            structures.Add(Instantiate(pf_structures[(int)camp_spawnInfo[current_structure_build_i].z], currentStructure.transform.position + dir * (currentStructure.radius + corridor_length + pf_structures[(int)camp_spawnInfo[current_structure_build_i].z].GetComponent<CrawStructure>().radius), Quaternion.identity, structures_hierachy_folder).GetComponent<CrawStructure>());
+        }
+    }
+
+    private void EndSpawningInterval() {
+        spawningInterval = false;
+        Debug.Log("spawningInterval reset");
     }
 
     /// <summary>
@@ -117,10 +176,16 @@ public class CrawManager : Singleton<CrawManager>
 
         //tmp button in inspector
         if (doSpawnStruct) {
-            //doSpawnStruct = false;
-            //spawningStructure = true;
-            //SpawnStructure();
-            Invoke("SpawnStructure", 0.1f);
+            if (!spawningInterval)
+            {
+                spawningInterval = true;
+
+                //SpawnStructureRandom();
+                SpawnStructure();
+
+                //tmp: start timer to count till next rapid spawn
+                Invoke("EndSpawningInterval", buildSpeed);
+            }
         }
     }
 }

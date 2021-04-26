@@ -9,16 +9,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(BoxCollider))]
 public class CrawStructure : MonoBehaviour
 {
-        public float radius;
-        public int length;
-        public bool isBase;
+    public float radius;
+    public int length;
+    public bool isBase;
 
-        public bool east = true, west = true;
-        public bool north = true, south = true;
+    public bool east = true, west = true;
+    public bool north = true, south = true;
 
     public int buttDir; //0 = north, 1 = east, 2 = south, 3 = west
+
 
     public Vector3 GetAvailableDir()
     {
@@ -27,7 +29,6 @@ public class CrawStructure : MonoBehaviour
         while (true)
         {
             int dir = Random.Range(0, 4);
-            Debug.Log("dir: " + dir);
             switch (dir)
             {
                 case 0:
@@ -43,7 +44,6 @@ public class CrawStructure : MonoBehaviour
                     if (west) { west = false; return Vector3.left; }
                     break;
                 default:
-                    Debug.Log("returning zero");
                     return Vector3.zero;
             }
         }
@@ -64,6 +64,26 @@ public class CrawStructure : MonoBehaviour
         }
         else {
             east = false;
+        }
+    }
+
+    public bool CheckCollisionValidity(Vector3 dir, float corridor_length, GameObject pf_room) {
+        Debug.DrawLine(transform.position + dir * (radius + 0.5f), dir * (radius + corridor_length + pf_room.GetComponent<CrawStructure>().radius), Color.red, 2);
+        return Physics.Raycast(transform.position + dir * (radius + 0.5f), dir, radius + corridor_length + pf_room.GetComponent<CrawStructure>().radius, 12);
+    }
+
+    public Vector3 GetDir(int dir) {
+        switch (dir) {
+            case 0:
+                return Vector3.forward;
+            case 1:
+                return Vector3.right;
+            case 2:
+                return Vector3.back;
+            case 3:
+                return Vector3.left;
+            default:
+                return Vector3.zero;
         }
     }
 

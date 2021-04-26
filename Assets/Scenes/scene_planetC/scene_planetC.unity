@@ -10895,11 +10895,21 @@ MonoBehaviour:
   pf_asters: []
   pf_structures:
   - {fileID: 7064752240826290875, guid: 459525aac5478cb49af4bd9ba203bc71, type: 3}
+  - {fileID: 9115564134662243587, guid: 34824f4da29cead479dd0e8ba382702e, type: 3}
+  camp_spawnInfo:
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 1}
+  - {x: 0, y: 1, z: 0}
+  - {x: 2, y: 1, z: 0}
+  - {x: 0, y: 3, z: 1}
+  - {x: 1, y: 1, z: 0}
   asters_hierachy_folder: {fileID: 2040472477}
   pf_corridor: {fileID: 2746277271674713846, guid: c373784a666db784bb3354a8e6fb6003,
     type: 3}
   structures_hierachy_folder: {fileID: 2040472477}
-  doSpawnStruct: 0
+  doSpawnStruct: 1
+  buildSpeed: 1
+  spawningInterval: 0
 --- !u!1 &1926899049
 GameObject:
   m_ObjectHideFlags: 0
