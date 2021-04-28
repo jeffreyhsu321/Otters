@@ -14,33 +14,29 @@ public class CrawManager : Singleton<CrawManager>
     //triggers (debug)
     public bool doGenerateFish;
 
+
+    //data
     Data data = new Data();     //game data that holds player stats
-
-    [SerializeField] GameObject[] pf_asters;        //list of all the land masses
-    [SerializeField] GameObject[] pf_structures;    //list of all the possible structures
-
-    public Vector3[] camp_spawnInfo;                                    //[camp_i][0 = structure_i; 1 = dir_i; 2 = pf_structures_i]
-    int current_structure_i;                                            //current structure built index for this camp (camp_spawnInfo use)
-    int current_aster_i = 0;                                                //current aster built index
-    List<CrawStructure> structures = new List<CrawStructure>();         //instantiated list of structures
+     
+    [SerializeField] GameObject[] pf_asters;        //list of all the aster prefabs
+    [SerializeField] GameObject[] pf_structures;    //list of all the structure prefabs
+    
+    int current_aster_i = 0;                                            //current aster built index
     List<CrawAster> asters = new List<CrawAster>();                     //instantiated list of asters
 
-    //timer
+    //timer for resource generation
     int timerThreshold;
     float timer;
 
     //lands
-    bool spawningAster;
-    CrawAster currentAster;
-
-    [SerializeField] Transform asters_hierachy_folder;
+    bool spawningAster;                 //animation flag
+    CrawAster currentSpawningAster;     //current aster that is spawning
+    [SerializeField] Transform asters_hierachy_folder;      //transform folder to store instantiated asters
 
     //structures
-    bool spawningStructure;
+    bool spawningStructure;             //animation flag
     CrawStructure currentStructure;
-    public GameObject pf_corridor;
-
-    [SerializeField] Transform structures_hierachy_folder;
+    public GameObject pf_corridor;      //corridor prefab
 
     //tmp
     public bool btnSpawnStruct;
@@ -52,12 +48,14 @@ public class CrawManager : Singleton<CrawManager>
     /// </summary>
     /// <param name="aster_i"></param>
     public void SpawnAster(int aster_i) {
-        currentAster = Instantiate(pf_asters[aster_i], pf_asters[aster_i].GetComponent<CrawAster>().spawnLocation, Quaternion.Euler(pf_asters[aster_i].GetComponent<CrawAster>().spawnRotation), asters_hierachy_folder).GetComponent<CrawAster>();
+        currentSpawningAster = Instantiate(pf_asters[aster_i], pf_asters[aster_i].GetComponent<CrawAster>().spawnLocation, Quaternion.Euler(pf_asters[aster_i].GetComponent<CrawAster>().spawnRotation), asters_hierachy_folder).GetComponent<CrawAster>();
+        asters.Add(currentSpawningAster);
         spawningAster = true;
     }
     public void SpawnAster() {
-        currentAster = Instantiate(pf_asters[current_aster_i], pf_asters[current_aster_i].GetComponent<CrawAster>().spawnLocation, Quaternion.Euler(pf_asters[current_aster_i].GetComponent<CrawAster>().spawnRotation), asters_hierachy_folder).GetComponent<CrawAster>();
+        currentSpawningAster = Instantiate(pf_asters[current_aster_i], pf_asters[current_aster_i].GetComponent<CrawAster>().spawnLocation, Quaternion.Euler(pf_asters[current_aster_i].GetComponent<CrawAster>().spawnRotation), asters_hierachy_folder).GetComponent<CrawAster>();
         spawningAster = true;
+        asters.Add(currentSpawningAster);
         current_aster_i++;
     }
 
@@ -114,56 +112,38 @@ public class CrawManager : Singleton<CrawManager>
     /// <summary>
     /// spawn structures (corridor -> room) per spawn camp info list (pre-determined design)
     /// </summary>
-    public void SpawnStructure() {
+    public void SpawnStructure(int aster_i) {
+        CrawAster currentAster = asters[aster_i];
+
         //tmp var inits
-        int corridor_length = 2;
-        Vector3 base_spawn_pos = Vector3.zero;
+        int corridor_length = 10;
         int base_room_pf_i = 0;
         spawningStructure = true;
 
-        if (structures_hierachy_folder.childCount == 0)
+        if (currentAster.structures_hierachy_folder.childCount == 0)
         {
             //initial base spawn and append to list of instaniated
-            structures.Add(Instantiate(pf_structures[base_room_pf_i], base_spawn_pos, Quaternion.identity, structures_hierachy_folder).GetComponent<CrawStructure>());
-            current_structure_i = 0;
+            currentAster.structures.Add(Instantiate(pf_structures[base_room_pf_i], currentAster.structures_hierachy_folder, false).GetComponent<CrawStructure>());
+            currentAster.structures[0].transform.localPosition = currentAster.initial_base_pos;
+            currentAster.current_structure_i = 0;
         }
         else
         {
-            current_structure_i++;
+            currentAster.current_structure_i++;
 
-            //get designated currentStructure
-            currentStructure = structures[(int)camp_spawnInfo[current_structure_i].x];
+            //get base structure to offshoot the new room off of
+            currentStructure = currentAster.GetBuildInfo_Structure();
 
             //spawn corridor
-            Vector3 dir = GetDir((int)camp_spawnInfo[current_structure_i].y);
+            Vector3 dir = currentAster.GetBuildInfo_Dir();
             Instantiate(pf_corridor, currentStructure.transform.position + dir * currentStructure.radius, Quaternion.LookRotation(dir, Vector3.up), currentStructure.transform);
 
             //spawn room
-            structures.Add(Instantiate(pf_structures[(int)camp_spawnInfo[current_structure_i].z], currentStructure.transform.position + dir * (currentStructure.radius + corridor_length + pf_structures[(int)camp_spawnInfo[current_structure_i].z].GetComponent<CrawStructure>().radius), Quaternion.identity, structures_hierachy_folder).GetComponent<CrawStructure>());
+            GameObject pf = pf_structures[currentAster.GetBuildInfo_Prefab_i()];
+            currentAster.structures.Add(Instantiate(pf, currentStructure.transform.position + dir * (currentStructure.radius + corridor_length + pf.GetComponent<CrawStructure>().radius), Quaternion.identity, currentAster.structures_hierachy_folder).GetComponent<CrawStructure>());
         }
     }
 
-    /// <summary>
-    /// return corresponding Vector3 per int dir
-    /// </summary>
-    /// <param name="dir"></param>
-    /// <returns></returns>
-    private Vector3 GetDir(int dir)
-    {
-        switch (dir)
-        {
-            case 0:
-                return Vector3.forward;
-            case 1:
-                return Vector3.right;
-            case 2:
-                return Vector3.back;
-            case 3:
-                return Vector3.left;
-            default:
-                return Vector3.zero;
-        }
-    }
 
     /// <summary>
     /// increment fish count by amount and update UI
@@ -201,13 +181,13 @@ public class CrawManager : Singleton<CrawManager>
     public void Update()
     {
         if (doGenerateFish) RunCrawTimer();
-        if (spawningStructure) spawningStructure = structures[current_structure_i].AnimateSpawn();
-        if (spawningAster) spawningAster = currentAster.AnimateSpawn();
+        if (spawningStructure) spawningStructure = currentSpawningAster.AnimateStructureSpawn();
+        if (spawningAster) spawningAster = currentSpawningAster.AnimateSpawn();
 
         //tmp button in inspector
         if (btnSpawnStruct) {
             btnSpawnStruct = false;
-            SpawnStructure();
+            SpawnStructure(0);
         }
         if (btnSpawnAster) {
             btnSpawnAster = false;
