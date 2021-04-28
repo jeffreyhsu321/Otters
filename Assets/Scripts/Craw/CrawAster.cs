@@ -12,10 +12,12 @@ using UnityEngine;
 public class CrawAster : MonoBehaviour
 {
     //physical
-    [SerializeField] Vector3 spawnLocation;
+    public Vector3 spawnLocation;
+    public Vector3 spawnRotation;
 
     //animations (shaders)
-    [SerializeField] Material mat;
+    [SerializeField] Material m_spawning;
+    [SerializeField] Material m_stable;
 
     [SerializeField] float dissolve_factor_init;
     [SerializeField] float dissolve_factor_target;
@@ -28,8 +30,8 @@ public class CrawAster : MonoBehaviour
     /// </summary>
     public void Start()
     {
-        mat.SetFloat("float_dissolve_factor", dissolve_factor_init);
-        mat.SetFloat("height_scale_mult", height_scale_mult);
+        m_spawning.SetFloat("float_dissolve_factor", dissolve_factor_init);
+        m_spawning.SetFloat("height_scale_mult", height_scale_mult);
     }
 
     /// <summary>
@@ -39,12 +41,23 @@ public class CrawAster : MonoBehaviour
     public bool AnimateSpawn()
     {
         //done animating
-        if (Mathf.Approximately(dissolve_factor_current, dissolve_factor_target)) return false;
+        if (dissolve_factor_current > dissolve_factor_target - 0.1f) {
+            SetStableMat();
+            return false;
+        }
 
         //animate
         dissolve_factor_current = Mathf.Lerp(dissolve_factor_current, dissolve_factor_target, Time.deltaTime);
-        mat.SetFloat("float_dissolve_factor", dissolve_factor_current);
+        m_spawning.SetFloat("float_dissolve_factor", dissolve_factor_current);
 
         return true;
+    }
+
+    /// <summary>
+    /// switches material to post-instantiated material after spawn animation is done
+    /// </summary>
+    private void SetStableMat()
+    {
+        this.GetComponent<Renderer>().material = m_stable;
     }
 }

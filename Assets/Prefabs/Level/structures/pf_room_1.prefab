@@ -111,18 +111,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   radius: 0.1
   length: 0
-  isBase: 0
   east: 1
   west: 1
   north: 1
   south: 1
-  buttDir: 0
   spawnLocation: {x: 0, y: 0, z: 0}
   baseAmount: 0
   upgradeModIndex: 0
   upgradeModList: []
-  mat: {fileID: 2100000, guid: af21d464f1053e34ab5bea05fd1f1334, type: 2}
-  dissolve_factor_init: 1
+  m_spawning: {fileID: 2100000, guid: af21d464f1053e34ab5bea05fd1f1334, type: 2}
+  m_stable: {fileID: 2100000, guid: 8ae3fd1511020e74481624b845acbe8c, type: 2}
+  dissolve_factor_init: 0
   dissolve_factor_target: 1
   height_scale_mult: 1
 --- !u!65 &-170023201756628410

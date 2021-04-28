@@ -11,6 +11,7 @@ using UnityEngine;
 
 public class CrawManager : Singleton<CrawManager>
 {
+    //triggers (debug)
     public bool doGenerateFish;
 
     Data data = new Data();     //game data that holds player stats
@@ -19,8 +20,10 @@ public class CrawManager : Singleton<CrawManager>
     [SerializeField] GameObject[] pf_structures;    //list of all the possible structures
 
     public Vector3[] camp_spawnInfo;                                    //[camp_i][0 = structure_i; 1 = dir_i; 2 = pf_structures_i]
-    int current_structure_build_i;                                      //current structure built index for this camp (camp_spawnInfo use)
+    int current_structure_i;                                            //current structure built index for this camp (camp_spawnInfo use)
+    int current_aster_i = 0;                                                //current aster built index
     List<CrawStructure> structures = new List<CrawStructure>();         //instantiated list of structures
+    List<CrawAster> asters = new List<CrawAster>();                     //instantiated list of asters
 
     //timer
     int timerThreshold;
@@ -40,20 +43,27 @@ public class CrawManager : Singleton<CrawManager>
     [SerializeField] Transform structures_hierachy_folder;
 
     //tmp
-    public bool doSpawnStruct;
-    public float buildSpeed;
-    public bool spawningInterval;
+    public bool btnSpawnStruct;
+    public bool btnSpawnAster;
 
-
-    public void SpawnAster(int aster_index) {
-        currentAster = Instantiate(pf_asters[aster_index], asters_hierachy_folder).GetComponent<CrawAster>();
-        spawningAster = true;
-    }
 
     /// <summary>
-    /// (depreciated) spawn structures randomly
+    /// spawns asters
     /// </summary>
-    /// <returns></returns>
+    /// <param name="aster_i"></param>
+    public void SpawnAster(int aster_i) {
+        currentAster = Instantiate(pf_asters[aster_i], pf_asters[aster_i].GetComponent<CrawAster>().spawnLocation, Quaternion.Euler(pf_asters[aster_i].GetComponent<CrawAster>().spawnRotation), asters_hierachy_folder).GetComponent<CrawAster>();
+        spawningAster = true;
+    }
+    public void SpawnAster() {
+        currentAster = Instantiate(pf_asters[current_aster_i], pf_asters[current_aster_i].GetComponent<CrawAster>().spawnLocation, Quaternion.Euler(pf_asters[current_aster_i].GetComponent<CrawAster>().spawnRotation), asters_hierachy_folder).GetComponent<CrawAster>();
+        spawningAster = true;
+        current_aster_i++;
+    }
+
+
+
+    /* (depreciated) spawn structures randomly
     public bool SpawnStructureRandom()
     {
         //tmp var inits
@@ -98,6 +108,8 @@ public class CrawManager : Singleton<CrawManager>
         return true;
         
     }
+    */
+
 
     /// <summary>
     /// spawn structures (corridor -> room) per spawn camp info list (pre-determined design)
@@ -107,32 +119,50 @@ public class CrawManager : Singleton<CrawManager>
         int corridor_length = 2;
         Vector3 base_spawn_pos = Vector3.zero;
         int base_room_pf_i = 0;
+        spawningStructure = true;
 
         if (structures_hierachy_folder.childCount == 0)
         {
             //initial base spawn and append to list of instaniated
             structures.Add(Instantiate(pf_structures[base_room_pf_i], base_spawn_pos, Quaternion.identity, structures_hierachy_folder).GetComponent<CrawStructure>());
-            current_structure_build_i = 0;
+            current_structure_i = 0;
         }
         else
         {
-            current_structure_build_i++;
+            current_structure_i++;
 
             //get designated currentStructure
-            currentStructure = structures[(int)camp_spawnInfo[current_structure_build_i].x];
+            currentStructure = structures[(int)camp_spawnInfo[current_structure_i].x];
 
             //spawn corridor
-            Vector3 dir = currentStructure.GetDir((int)camp_spawnInfo[current_structure_build_i].y);
+            Vector3 dir = GetDir((int)camp_spawnInfo[current_structure_i].y);
             Instantiate(pf_corridor, currentStructure.transform.position + dir * currentStructure.radius, Quaternion.LookRotation(dir, Vector3.up), currentStructure.transform);
 
             //spawn room
-            structures.Add(Instantiate(pf_structures[(int)camp_spawnInfo[current_structure_build_i].z], currentStructure.transform.position + dir * (currentStructure.radius + corridor_length + pf_structures[(int)camp_spawnInfo[current_structure_build_i].z].GetComponent<CrawStructure>().radius), Quaternion.identity, structures_hierachy_folder).GetComponent<CrawStructure>());
+            structures.Add(Instantiate(pf_structures[(int)camp_spawnInfo[current_structure_i].z], currentStructure.transform.position + dir * (currentStructure.radius + corridor_length + pf_structures[(int)camp_spawnInfo[current_structure_i].z].GetComponent<CrawStructure>().radius), Quaternion.identity, structures_hierachy_folder).GetComponent<CrawStructure>());
         }
     }
 
-    private void EndSpawningInterval() {
-        spawningInterval = false;
-        Debug.Log("spawningInterval reset");
+    /// <summary>
+    /// return corresponding Vector3 per int dir
+    /// </summary>
+    /// <param name="dir"></param>
+    /// <returns></returns>
+    private Vector3 GetDir(int dir)
+    {
+        switch (dir)
+        {
+            case 0:
+                return Vector3.forward;
+            case 1:
+                return Vector3.right;
+            case 2:
+                return Vector3.back;
+            case 3:
+                return Vector3.left;
+            default:
+                return Vector3.zero;
+        }
     }
 
     /// <summary>
@@ -171,21 +201,17 @@ public class CrawManager : Singleton<CrawManager>
     public void Update()
     {
         if (doGenerateFish) RunCrawTimer();
-        if (spawningStructure) spawningStructure = currentStructure.AnimateSpawn();
+        if (spawningStructure) spawningStructure = structures[current_structure_i].AnimateSpawn();
         if (spawningAster) spawningAster = currentAster.AnimateSpawn();
 
         //tmp button in inspector
-        if (doSpawnStruct) {
-            if (!spawningInterval)
-            {
-                spawningInterval = true;
-
-                //SpawnStructureRandom();
-                SpawnStructure();
-
-                //tmp: start timer to count till next rapid spawn
-                Invoke("EndSpawningInterval", buildSpeed);
-            }
+        if (btnSpawnStruct) {
+            btnSpawnStruct = false;
+            SpawnStructure();
+        }
+        if (btnSpawnAster) {
+            btnSpawnAster = false;
+            SpawnAster();
         }
     }
 }

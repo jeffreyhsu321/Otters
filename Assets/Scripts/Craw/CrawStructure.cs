@@ -9,19 +9,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(BoxCollider))]
 public class CrawStructure : MonoBehaviour
 {
     public float radius;
     public int length;
-    public bool isBase;
 
+    /* (depreciated) direction avaliability for pcg spawning
     public bool east = true, west = true;
     public bool north = true, south = true;
+    */
 
-    public int buttDir; //0 = north, 1 = east, 2 = south, 3 = west
-
-
+    /* (depreciated) get avaliable direction (for spawning corridors)
     public Vector3 GetAvailableDir()
     {
         if (north == false && east == false && south == false && west == false) return Vector3.zero;
@@ -48,7 +46,9 @@ public class CrawStructure : MonoBehaviour
             }
         }
     }
+    */
 
+    /* (depreciated) set direction avaliability after spawning corridors
     public void SetAvailability(Vector3 buttDir) {
         if (buttDir == Vector3.forward)
         {
@@ -66,26 +66,16 @@ public class CrawStructure : MonoBehaviour
             east = false;
         }
     }
+    */
 
+    /* (depreciated) checks for collision validity for spawning new rooms and corridors
     public bool CheckCollisionValidity(Vector3 dir, float corridor_length, GameObject pf_room) {
         Debug.DrawLine(transform.position + dir * (radius + 0.5f), dir * (radius + corridor_length + pf_room.GetComponent<CrawStructure>().radius), Color.red, 2);
         return Physics.Raycast(transform.position + dir * (radius + 0.5f), dir, radius + corridor_length + pf_room.GetComponent<CrawStructure>().radius, 12);
     }
+    */
 
-    public Vector3 GetDir(int dir) {
-        switch (dir) {
-            case 0:
-                return Vector3.forward;
-            case 1:
-                return Vector3.right;
-            case 2:
-                return Vector3.back;
-            case 3:
-                return Vector3.left;
-            default:
-                return Vector3.zero;
-        }
-    }
+
 
     //physical
     [SerializeField] Vector3 spawnLocation;
@@ -96,7 +86,8 @@ public class CrawStructure : MonoBehaviour
     [SerializeField] float[] upgradeModList;
 
     //animations (shaders)
-    [SerializeField] Material mat;
+    [SerializeField] Material m_spawning;
+    [SerializeField] Material m_stable;
 
     [SerializeField] float dissolve_factor_init;
     [SerializeField] float dissolve_factor_target;
@@ -110,8 +101,8 @@ public class CrawStructure : MonoBehaviour
     /// </summary>
     public void Start()
     {
-        mat.SetFloat("float_dissolve_factor", dissolve_factor_init);
-        mat.SetFloat("height_scale_mult", height_scale_mult);
+        m_spawning.SetFloat("float_dissolve_factor", dissolve_factor_init);
+        m_spawning.SetFloat("height_scale_mult", height_scale_mult);
     }
 
     /// <summary>
@@ -121,26 +112,23 @@ public class CrawStructure : MonoBehaviour
     public bool AnimateSpawn() {
 
         //done animating
-        if (Mathf.Approximately(dissolve_factor_current, dissolve_factor_target)) return false;
+        if (dissolve_factor_current > dissolve_factor_target - 0.1f) {
+            Debug.Log("reached approximate target");
+            SetStableMat();
+            return false;
+        }
 
         //animate
         dissolve_factor_current = Mathf.Lerp(dissolve_factor_current, dissolve_factor_target, Time.deltaTime);
-        mat.SetFloat("float_dissolve_factor", dissolve_factor_current);
+        m_spawning.SetFloat("float_dissolve_factor", dissolve_factor_current);
 
         return true;
     }
 
-    /*
-    public void SpawnAdjacentRoom(GameObject pf_room, GameObject pf_corridor, Transform structures_hierachy_folder) {
-        //spawn corridor
-        Vector3 dir = GetAvailableDir();
-        GameObject corridor = Instantiate(pf_corridor, transform.position + dir * radius, Quaternion.LookRotation(dir), transform);
-
-        //spawn room
-        int corridor_length = 2;
-        GameObject room = Instantiate(pf_room, transform.position + dir * (radius + corridor_length + pf_room.GetComponent<CrawStructure>().radius), Quaternion.identity, structures_hierachy_folder);
+    /// <summary>
+    /// switches material to post-instantiated material after spawn animation is done
+    /// </summary>
+    private void SetStableMat() {
+        this.GetComponent<Renderer>().material = m_stable;
     }
-    */
-
-
 }
