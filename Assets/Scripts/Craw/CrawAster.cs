@@ -34,6 +34,8 @@ public class CrawAster : MonoBehaviour
     [SerializeField] int height_scale_mult;
 
 
+
+
     /// <summary>
     /// init shader values (because shader is shared by different structures that requires different init values)
     /// </summary>
@@ -67,6 +69,7 @@ public class CrawAster : MonoBehaviour
     /// </summary>
     private void SetStableMat()
     {
+
         this.GetComponent<Renderer>().material = m_stable;
     }
 

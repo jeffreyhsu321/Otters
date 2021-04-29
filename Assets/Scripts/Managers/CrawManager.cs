@@ -116,7 +116,7 @@ public class CrawManager : Singleton<CrawManager>
         CrawAster currentAster = asters[aster_i];
 
         //tmp var inits
-        int corridor_length = 10;
+        int corridor_length = 1;
         int base_room_pf_i = 0;
         spawningStructure = true;
 
@@ -136,7 +136,7 @@ public class CrawManager : Singleton<CrawManager>
 
             //spawn corridor
             Vector3 dir = currentAster.GetBuildInfo_Dir();
-            Instantiate(pf_corridor, currentStructure.transform.position + dir * currentStructure.radius, Quaternion.LookRotation(dir, Vector3.up), currentStructure.transform);
+            Instantiate(pf_corridor, currentStructure.transform.position + dir * currentStructure.radius, Quaternion.LookRotation(dir, Vector3.forward), currentStructure.transform);
 
             //spawn room
             GameObject pf = pf_structures[currentAster.GetBuildInfo_Prefab_i()];
